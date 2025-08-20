@@ -1,3 +1,5 @@
+## Commands
+
 ### Create virtual environment
 ```
 python -m venv <virtual env name>
@@ -13,3 +15,4 @@ Linux
 ```
 source <virtual env name>/bin/activate
 ```
+
