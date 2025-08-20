@@ -1,0 +1,11 @@
+{
+    "editor.tabSize": 4, // Defines the number of spaces a tab is equal to.
+    "editor.insertSpaces": true, // If true, pressing Tab inserts spaces instead of a tab character.
+    "editor.detectIndentation": false, // Set to false to prevent VS Code from automatically detecting indentation based on file content. This ensures your defined settings are always used.
+    "workbench.colorCustomizations": {
+      "titleBar.activeBackground": "#1281ef",
+      "titleBar.activeForeground": "#fbf8f8",
+      "titleBar.inactiveBackground": "#1281ef99",
+      "titleBar.inactiveForeground": "#fbf8f899"
+    }
+}
