@@ -5,7 +5,7 @@
     "magicstack.magicpython",
     "ms-python.python",
     "ms-python.vscode-pylance",
-    "ms-python.vscode-python-envs",
-    "tabnine.tabnine-vscode"
+    "ms-python.vscode-python-envs"
+    // "tabnine.tabnine-vscode"
   ]
 }
