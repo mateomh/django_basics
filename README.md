@@ -18,7 +18,7 @@ Windows
 <virtual env name>\Scripts\activate
 ```
 
-Linux
+Linux or Mac
 ```
 source <virtual env name>/bin/activate
 ```
@@ -38,4 +38,25 @@ python manage.py startapp <app name>
 ### Run the server for the project
 ```
 python manage.py runserver
+```
+
+### Run migrations for the project
+Make sure you are inside the project folder
+
+```
+python manage.py migrate
+```
+
+### Create super user for the admin panel
+Make sure you are inside the project folder
+
+```
+python manage.py createsuperuser
+```
+
+### Create migrations when changing models in the app
+Make sure you are inside the project folder
+
+```
+python manage.py makemigrations
 ```
