@@ -1,1 +1,5 @@
 moviedb/db.sqlite3
+moviedb/*/__pycache__/*
+moviedb/*/*/__pycache__/*
+# moviedb/watchlist_app/__pycache__/*
+# moviedb/watchlist_app/migrations/__pycache__/*
