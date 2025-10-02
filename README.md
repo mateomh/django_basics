@@ -1,5 +1,10 @@
 ## Commands
 
+### Remove a file from the repo
+```
+git rm --cached <file name>
+```
+
 ### Create virtual environment
 ```
 python -m venv <virtual env name>
