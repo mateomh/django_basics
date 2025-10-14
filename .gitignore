@@ -1,3 +1,13 @@
+# Virtual env
+movie_env/
+venv/
+.venv/
+# Python cache
+__pycache__/
+*.pyc
+# IDE
+*.sqlite3
+.env
 moviedb/db.sqlite3
 moviedb/*/__pycache__/*
 moviedb/*/*/__pycache__/*
