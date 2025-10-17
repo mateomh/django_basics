@@ -28,6 +28,7 @@ class MovieSerializer(serializers.ModelSerializer):
         else:
             return data
 
+
 class WatchListSerializer(serializers.ModelSerializer):
     class Meta:
         model = WatchList
@@ -35,6 +36,10 @@ class WatchListSerializer(serializers.ModelSerializer):
 
 
 class StreamPlatformSerializer(serializers.ModelSerializer):
+    # Same name as the related name in the foreign key field
+    movies = MovieSerializer(many=True, read_only=True)
+
     class Meta:
         model = StreamPlatform
         fields = "__all__"
+
