@@ -45,6 +45,13 @@ python manage.py startapp <app name>
 python manage.py runserver
 ```
 
+### Create migrations when changing models in the app
+Make sure you are inside the project folder
+
+```
+python manage.py makemigrations
+```
+
 ### Run migrations for the project
 Make sure you are inside the project folder
 
@@ -59,9 +66,3 @@ Make sure you are inside the project folder
 python manage.py createsuperuser
 ```
 
-### Create migrations when changing models in the app
-Make sure you are inside the project folder
-
-```
-python manage.py makemigrations
-```

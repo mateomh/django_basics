@@ -1,8 +1,8 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from watchlist_app.models import Movie
-from watchlist_app.api.serializers import MovieSerializer
+from watchlist_app.models import Movie, WatchList, StreamPlatform
+from watchlist_app.api.serializers import MovieSerializer, WatchListSerializer, StreamPlatformSerializer
 
 class MovieListAV(APIView):
     """
@@ -57,3 +57,114 @@ class MovieDetailsAV(APIView):
         
         movie.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class WatchListsAV(APIView):
+    """
+    View to list all the watchlists in the database
+    """
+
+    def get(self, req):
+        watchlists = WatchList.objects.all()
+        serialized_data = WatchListSerializer(watchlists, many=True)
+        return Response(serialized_data.data, status=status.HTTP_200_OK)
+    
+    def post(self, req):
+        serializer = WatchListSerializer(data=req.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class WatchListDetailsAV(APIView):
+    """
+    """
+
+    def get(self, req, id):
+        try:
+            watchlist = WatchList.objects.get(pk=id)
+        except WatchList.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+             
+        serialized_data = WatchListSerializer(watchlist)
+        return Response(serialized_data.data, status=status.HTTP_200_OK)
+    
+    def put(self, req, id):
+        try:
+            watchlist = WatchList.objects.get(pk=id)
+        except WatchList.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = WatchListSerializer(watchlist, data=req.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    def delete(self, req, id):
+        try:
+            watchlist = WatchList.objects.get(pk=id)
+        except WatchList.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        watchlist.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+class StreamPlatformListAV(APIView):
+    """
+    View to list all the stream platforms in the database
+    """
+
+    def get(self, req):
+        platforms = StreamPlatform.objects.all()
+        serialized_data = StreamPlatformSerializer(platforms, many=True)
+        return Response(serialized_data.data, status=status.HTTP_200_OK)
+    
+    def post(self, req):
+        serializer = StreamPlatformSerializer(data=req.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class StreamPlatformDetailsAV(APIView):
+    """
+    """
+
+    def get(self, req, id):
+        try:
+            platform = StreamPlatform.objects.get(pk=id)
+        except StreamPlatform.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+             
+        serialized_data = StreamPlatformSerializer(platform)
+        return Response(serialized_data.data, status=status.HTTP_200_OK)
+    
+    def put(self, req, id):
+        try:
+            platform = StreamPlatform.objects.get(pk=id)
+        except StreamPlatform.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = StreamPlatformSerializer(platform, data=req.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    def delete(self, req, id):
+        try:
+            platform = StreamPlatform.objects.get(pk=id)
+        except StreamPlatform.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        platform.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+  

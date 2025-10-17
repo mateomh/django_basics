@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from watchlist_app.models import Movie
+from watchlist_app.models import Movie, StreamPlatform, WatchList
 
 # Model serializer
 class MovieSerializer(serializers.ModelSerializer):
@@ -28,3 +28,13 @@ class MovieSerializer(serializers.ModelSerializer):
         else:
             return data
 
+class WatchListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WatchList
+        fields = "__all__"
+
+
+class StreamPlatformSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StreamPlatform
+        fields = "__all__"
