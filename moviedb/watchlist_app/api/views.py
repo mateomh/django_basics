@@ -1,4 +1,4 @@
-from rest_framework import generics, status, mixins
+from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from watchlist_app.models import Movie, Review, WatchList, StreamPlatform
@@ -192,11 +192,23 @@ class StreamPlatformDetailsAV(APIView):
 
 # Concrete view classes
 class ReviewListAV(generics.ListAPIView):
-    queryset = Review.objects.all()
+    # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return Review.objects.filter(movie=id)
 
 
 class ReviewDetailsAV(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     
+
+class ReviewCreate(generics.CreateAPIView):
+    serializer_class = ReviewSerializer
+
+    def perform_create(self, serializer):
+        id = self.kwargs['id']
+        movie = Movie.objects.get(pk=id)
+        return serializer.save(movie=movie)
