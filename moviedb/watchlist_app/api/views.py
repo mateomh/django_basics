@@ -115,18 +115,40 @@ class WatchListDetailsAV(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 
-# Viewset
-class StreamPlatformVS(viewsets.ViewSet):
-    def list(self, req):
-        queryset = StreamPlatform.objects.all()
-        serialized_data = StreamPlatformSerializer(queryset, many=True)
-        return Response(serialized_data.data)
+# Regular Viewset
+# class StreamPlatformVS(viewsets.ViewSet):
+#     def list(self, req):
+#         queryset = StreamPlatform.objects.all()
+#         serialized_data = StreamPlatformSerializer(queryset, many=True)
+#         return Response(serialized_data.data)
 
-    def retrieve(self, req, pk = None):
-        queryset = StreamPlatform.objects.all()
-        stream_platform = get_object_or_404(queryset, pk=pk)
-        serialized_data = StreamPlatformSerializer(stream_platform)
-        return Response(serialized_data.data)
+#     def retrieve(self, req, pk = None):
+#         queryset = StreamPlatform.objects.all()
+#         stream_platform = get_object_or_404(queryset, pk=pk)
+#         serialized_data = StreamPlatformSerializer(stream_platform)
+#         return Response(serialized_data.data)
+    
+#     def create(self, req):
+#         serializer = StreamPlatformSerializer(data=req.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         else:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+#     def delete(self, req, id):
+#         try:
+#             platform = StreamPlatform.objects.get(pk=id)
+#         except StreamPlatform.DoesNotExist:
+#             return Response(status=status.HTTP_404_NOT_FOUND)
+        
+#         platform.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# Model Viewset
+class StreamPlatformVS(viewsets.ModelViewSet):
+    queryset = StreamPlatform.objects.all()
+    serializer_class = StreamPlatformSerializer
 
 class StreamPlatformListAV(APIView):
     """
