@@ -169,22 +169,34 @@ class StreamPlatformDetailsAV(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
   
 
-# Class View with Mixins
-class ReviewListAV(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+# # Class View with Mixins
+# class ReviewListAV(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+#     queryset = Review.objects.all()
+#     serializer_class = ReviewSerializer
+
+#     def get(self, req, *args, **kwargs):
+#         return self.list(req, *args, **kwargs)
+    
+#     def post(self, req, *args, **kwargs):
+#         return self.create(req, *args, **kwargs)
+    
+
+# # Class View with Mixins
+# class ReviewDetailsAV(mixins.RetrieveModelMixin, generics.GenericAPIView):
+#     queryset = Review.objects.all()
+#     serializer_class = ReviewSerializer
+
+#     def get(self, req, *args, **kwargs):
+#         return self.retrieve(req, *args, **kwargs)
+    
+
+# Concrete view classes
+class ReviewListAV(generics.ListAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
-    def get(self, req, *args, **kwargs):
-        return self.list(req, *args, **kwargs)
-    
-    def post(self, req, *args, **kwargs):
-        return self.create(req, *args, **kwargs)
-    
 
-# Class View with Mixins
-class ReviewDetailsAV(mixins.RetrieveModelMixin, generics.GenericAPIView):
+class ReviewDetailsAV(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-
-    def get(self, req, *args, **kwargs):
-        return self.retrieve(req, *args, **kwargs)
+    
