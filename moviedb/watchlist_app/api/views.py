@@ -1,4 +1,5 @@
-from rest_framework import generics, status
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from watchlist_app.models import Movie, Review, WatchList, StreamPlatform
@@ -113,6 +114,19 @@ class WatchListDetailsAV(APIView):
         watchlist.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+
+# Viewset
+class StreamPlatformVS(viewsets.ViewSet):
+    def list(self, req):
+        queryset = StreamPlatform.objects.all()
+        serialized_data = StreamPlatformSerializer(queryset, many=True)
+        return Response(serialized_data.data)
+
+    def retrieve(self, req, pk = None):
+        queryset = StreamPlatform.objects.all()
+        stream_platform = get_object_or_404(queryset, pk=pk)
+        serialized_data = StreamPlatformSerializer(stream_platform)
+        return Response(serialized_data.data)
 
 class StreamPlatformListAV(APIView):
     """
