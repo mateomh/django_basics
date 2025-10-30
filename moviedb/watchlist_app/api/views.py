@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, status, viewsets
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from watchlist_app.models import Movie, Review, WatchList, StreamPlatform
@@ -244,7 +245,18 @@ class ReviewDetailsAV(generics.RetrieveUpdateDestroyAPIView):
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer
 
+    def get_queryset(self):
+        return Review.objects.all()
+
     def perform_create(self, serializer):
         id = self.kwargs['id']
         movie = Movie.objects.get(pk=id)
-        return serializer.save(movie=movie)
+
+        review_user = self.req.user
+        review_queryset = Review.objects.filter(movie=movie, review_user=review_user)
+
+        if review_queryset.exists():
+            raise ValidationError("Review already exists")
+
+        return serializer.save(movie=movie, review_user=review_user)
+

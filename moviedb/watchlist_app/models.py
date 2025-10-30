@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
@@ -40,6 +41,7 @@ class Review(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
 
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='reviews')
+    review_user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"<Review {self.movie.name} - {self.rating}>"
