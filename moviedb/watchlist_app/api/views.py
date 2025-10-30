@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, status, viewsets
 from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from watchlist_app.models import Movie, Review, WatchList, StreamPlatform
@@ -231,6 +232,7 @@ class StreamPlatformDetailsAV(APIView):
 class ReviewListAV(generics.ListAPIView):
     # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         id = self.kwargs['id']
@@ -240,6 +242,7 @@ class ReviewListAV(generics.ListAPIView):
 class ReviewDetailsAV(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
     
 
 class ReviewCreate(generics.CreateAPIView):
