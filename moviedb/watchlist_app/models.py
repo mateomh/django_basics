@@ -18,6 +18,9 @@ class Movie(models.Model):
     active = models.BooleanField(default=True)
     platform = models.ForeignKey(StreamPlatform, on_delete=models.CASCADE, related_name='movies')
 
+    avg_rating = models.FloatField(default=0)
+    rating_count = models.IntegerField(default=0)
+
     def __str__(self):
         return f"<Movie {self.name}>"
     
