@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "watchlist_app",
+    'user_app',
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -131,6 +133,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication', # user and password authentication. Just for testing
+        # 'rest_framework.authentication.BasicAuthentication', # user and password authentication. Just for testing
+        'rest_framework.authentication.TokenAuthentication', # user and password authentication. Just for testing
     ]
 }
