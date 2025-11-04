@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -22,3 +23,8 @@ def registration_view(req):
         return Response(data)
 
         
+@api_view(['POST'])
+def logout_view(req):
+    if req.method == 'POST':
+        req.user.auth_token.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
