@@ -12,6 +12,7 @@ class MovieListAV(APIView):
     """
     View to list all the movies in the database
     """
+    permission_classes = [AdminOrReadOnly]
 
     def get(self, req):
         movies = Movie.objects.all()
@@ -30,6 +31,7 @@ class MovieListAV(APIView):
 class MovieDetailsAV(APIView):
     """
     """
+    permission_classes = [AdminOrReadOnly]
 
     def get(self, req, id):
         try:
@@ -157,6 +159,7 @@ class StreamPlatformListAV(APIView):
     """
     View to list all the stream platforms in the database
     """
+    permission_classes = [AdminOrReadOnly]
 
     def get(self, req):
         platforms = StreamPlatform.objects.all()
@@ -175,6 +178,7 @@ class StreamPlatformListAV(APIView):
 class StreamPlatformDetailsAV(APIView):
     """
     """
+    permission_classes = [AdminOrReadOnly]
 
     def get(self, req, id):
         try:
@@ -233,7 +237,7 @@ class StreamPlatformDetailsAV(APIView):
 class ReviewListAV(generics.ListAPIView):
     # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         id = self.kwargs['id']
@@ -248,6 +252,7 @@ class ReviewDetailsAV(generics.RetrieveUpdateDestroyAPIView):
 
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Review.objects.all()
@@ -256,7 +261,7 @@ class ReviewCreate(generics.CreateAPIView):
         id = self.kwargs['id']
         movie = Movie.objects.get(pk=id)
 
-        review_user = self.req.user
+        review_user = self.request.user
         review_queryset = Review.objects.filter(movie=movie, review_user=review_user)
 
         if review_queryset.exists():

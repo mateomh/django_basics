@@ -7,5 +7,6 @@
       "titleBar.activeForeground": "#fbf8f8",
       "titleBar.inactiveBackground": "#1281ef99",
       "titleBar.inactiveForeground": "#fbf8f899"
-    }
+    },
+    "remote.autoForwardPortsFallback": 0
 }

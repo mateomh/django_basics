@@ -23,13 +23,13 @@ urlpatterns = [
 
     path('', include(router.urls)),
 
-    # path('platform/', StreamPlatformListAV.as_view(), name='platform-list'),
-    # path('platform/<int:id>', StreamPlatformDetailsAV.as_view(), name='platform-detail'),
+    path('platform/', StreamPlatformListAV.as_view(), name='platform-list'),
+    path('platform/<int:id>', StreamPlatformDetailsAV.as_view(), name='platform-detail'),
 
     # path('review/', ReviewListAV.as_view(), name='review-list'),
     # path('review/<int:id>', ReviewDetailsAV.as_view(), name='review-detail'),
 
     path('<int:id>/review-create', ReviewCreate.as_view(), name='movie-review-create'),
     path('<int:id>/reviews', ReviewListAV.as_view(), name='movie-detail-reviews'),
-    path('review/<int:id>/', ReviewDetailsAV.as_view(), name='movie-review-detail'),
+    path('review/<int:pk>/', ReviewDetailsAV.as_view(), name='movie-review-detail'),
 ]

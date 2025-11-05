@@ -15,7 +15,8 @@ def registration_view(req):
             data['username'] = account.username
             data['email'] = account.email
 
-            token = Token.objects.get_or_create(user=account).key
+            token = Token.objects.get_or_create(user=account)[0].key
+            print(f"THIS IS THE TOKEN: {token}")
             data['token'] = token
         else:
             data = serialized_data.errors
