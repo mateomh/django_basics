@@ -134,6 +134,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # 'rest_framework.authentication.BasicAuthentication', # user and password authentication. Just for testing
-        'rest_framework.authentication.TokenAuthentication', # user and password authentication. Just for testing
+        # 'rest_framework.authentication.TokenAuthentication', # token authentication. Just for testing
+        'rest_framework_simplejwt.authentication.JWTAuthentication', # JWT authentication
     ]
+}
+
+# Simple JWT configuration (https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html)
+SIMPLE_JWT = {
+    'ROTATE_REFRESH_TOKENS': True
 }
