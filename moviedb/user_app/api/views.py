@@ -6,6 +6,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from user_app.api.serializers import RegistrationSerializer
 # from user_app import models # for using callbacks for autogenerating token
 
+# Function based view
 @api_view(['POST'])
 def registration_view(req):
     if req.method == 'POST':

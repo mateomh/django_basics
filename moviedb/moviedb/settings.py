@@ -136,7 +136,18 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.BasicAuthentication', # user and password authentication. Just for testing
         # 'rest_framework.authentication.TokenAuthentication', # token authentication. Just for testing
         'rest_framework_simplejwt.authentication.JWTAuthentication', # JWT authentication
-    ]
+    ],
+    # 'DEFAULT_THROTTLE_CLASSES': [
+    #     'rest_framework.throttling.AnonRateThrottle',
+    #     'rest_framework.throttling.UserRateThrottle'
+    # ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '1000/day',
+        'review-create': '1/day',
+        'review-list': '10/day',
+        'movie-list': '2/minute'
+    }
 }
 
 # Simple JWT configuration (https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html)

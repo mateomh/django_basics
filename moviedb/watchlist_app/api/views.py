@@ -3,16 +3,20 @@ from rest_framework import generics, status, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle, ScopedRateThrottle
 from rest_framework.views import APIView
 from watchlist_app.models import Movie, Review, WatchList, StreamPlatform
 from watchlist_app.api.permissions import AdminOrReadOnly, ReviewUserOrReadOnly
 from watchlist_app.api.serializers import MovieSerializer, ReviewSerializer,  WatchListSerializer, StreamPlatformSerializer
+from watchlist_app.api.throttling import ReviewCreateThrottle, ReviewListThrottle
 
 class MovieListAV(APIView):
     """
     View to list all the movies in the database
     """
     permission_classes = [AdminOrReadOnly]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'movie-list'
 
     def get(self, req):
         movies = Movie.objects.all()
@@ -238,6 +242,7 @@ class ReviewListAV(generics.ListAPIView):
     # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     # permission_classes = [IsAuthenticated]
+    throttle_classes = [AnonRateThrottle, ReviewListThrottle]
 
     def get_queryset(self):
         id = self.kwargs['id']
@@ -248,11 +253,12 @@ class ReviewDetailsAV(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [ReviewUserOrReadOnly]
-    
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
+    throttle_classes = [ReviewCreateThrottle]
 
     def get_queryset(self):
         return Review.objects.all()
