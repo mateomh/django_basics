@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import generics, status, viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics, status, viewsets, filters
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
@@ -9,6 +10,15 @@ from watchlist_app.models import Movie, Review, WatchList, StreamPlatform
 from watchlist_app.api.permissions import AdminOrReadOnly, ReviewUserOrReadOnly
 from watchlist_app.api.serializers import MovieSerializer, ReviewSerializer,  WatchListSerializer, StreamPlatformSerializer
 from watchlist_app.api.throttling import ReviewCreateThrottle, ReviewListThrottle
+
+class MovieList(generics.ListAPIView):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['title', 'platform__name']
+    search_fields = ['title', '=platform__name']
+    ordering_fields = ['title', 'rating']
+    ordering = ['title', '-rating']
 
 class MovieListAV(APIView):
     """
@@ -243,6 +253,8 @@ class ReviewListAV(generics.ListAPIView):
     serializer_class = ReviewSerializer
     # permission_classes = [IsAuthenticated]
     throttle_classes = [AnonRateThrottle, ReviewListThrottle]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['review_user__username', 'active']
 
     def get_queryset(self):
         id = self.kwargs['id']
@@ -283,3 +295,23 @@ class ReviewCreate(generics.CreateAPIView):
 
         return serializer.save(movie=movie, review_user=review_user)
 
+# Basic filtering using queryset with url parameter
+class UserReviews(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+    
+    def get_queryset(self):
+        username = self.kwargs['username']
+        return Review.objects.filter(review_user__username=username)
+
+
+# Basic filtering using query params
+class UserReviewsQP(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+    
+    def get_queryset(self):
+        username = self.request.query_params.get('username', None)
+        if username is not None:
+            return Review.objects.filter(review_user__username=username)
+        
+        return Review.objects.all()
+            

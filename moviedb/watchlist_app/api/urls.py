@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from watchlist_app.api.views import (MovieListAV, 
+from watchlist_app.api.views import (MovieListAV,
+                                     MovieList,
                                      MovieDetailsAV, 
                                      ReviewListAV, 
                                      ReviewCreate, 
@@ -9,7 +10,9 @@ from watchlist_app.api.views import (MovieListAV,
                                      WatchListDetailsAV, 
                                      StreamPlatformListAV, 
                                      StreamPlatformDetailsAV,
-                                     StreamPlatformVS)
+                                     StreamPlatformVS,
+                                     UserReviews,
+                                     UserReviewsQP)
 
 router = DefaultRouter()
 router.register('platform', StreamPlatformVS, basename='stream-platform')
@@ -17,6 +20,8 @@ router.register('platform', StreamPlatformVS, basename='stream-platform')
 urlpatterns = [
     path('list/', MovieListAV.as_view(), name='movie-list'),
     path('<int:id>/', MovieDetailsAV.as_view(), name='movie-detail'),
+    path('new-list/', MovieList.as_view(), name='movie-list-new'),
+
 
     path('watchlist/', WatchListsAV.as_view(), name='watchlist-list'),
     path('watchlist/<int:id>', WatchListDetailsAV.as_view(), name='watchlist-detail'),
@@ -32,4 +37,7 @@ urlpatterns = [
     path('<int:id>/review-create', ReviewCreate.as_view(), name='movie-review-create'),
     path('<int:id>/reviews', ReviewListAV.as_view(), name='movie-detail-reviews'),
     path('review/<int:pk>/', ReviewDetailsAV.as_view(), name='movie-review-detail'),
+
+    path('reviews/<str:username>/', UserReviews.as_view(), name='user-review-detail'),
+    path('reviews/', UserReviewsQP.as_view(), name='user-review-detail'),
 ]
