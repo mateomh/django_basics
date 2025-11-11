@@ -148,7 +148,9 @@ REST_FRAMEWORK = {
         'review-create': '1/day',
         'review-list': '10/day',
         'movie-list': '2/minute'
-    }
+    },
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    # 'PAGE_SIZE': 5
 }
 
 # Simple JWT configuration (https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html)

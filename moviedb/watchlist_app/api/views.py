@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle, ScopedRateThrottle
 from rest_framework.views import APIView
 from watchlist_app.models import Movie, Review, WatchList, StreamPlatform
+from watchlist_app.api.pagination import MoviesPagination, MoviesLimitOffsetPagination, MoviesCursorPagination
 from watchlist_app.api.permissions import AdminOrReadOnly, ReviewUserOrReadOnly
 from watchlist_app.api.serializers import MovieSerializer, ReviewSerializer,  WatchListSerializer, StreamPlatformSerializer
 from watchlist_app.api.throttling import ReviewCreateThrottle, ReviewListThrottle
@@ -19,6 +20,9 @@ class MovieList(generics.ListAPIView):
     search_fields = ['title', '=platform__name']
     ordering_fields = ['title', 'rating']
     ordering = ['title', '-rating']
+    # pagination_class = MoviesPagination
+    # pagination_class = MoviesLimitOffsetPagination
+    pagination_class = MoviesCursorPagination # to use cursor based pagination you have to remove filters and ordering
 
 class MovieListAV(APIView):
     """
