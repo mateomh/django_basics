@@ -26,7 +26,7 @@ def registration_view(req):
         else:
             data = serialized_data.errors
         
-        return Response(data)
+        return Response(data, status=status.HTTP_201_CREATED)
 
         
 @api_view(['POST'])
