@@ -1,7 +1,6 @@
 {
   "recommendations": [
-    "visualstudioexptteam.vscodeintellicode",
-    "visualstudioexptteam.vscodeintellicode-completions",
+    "charliermarsh.ruff",
     "magicstack.magicpython",
     "ms-python.python",
     "ms-python.vscode-pylance",

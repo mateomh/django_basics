@@ -17,6 +17,11 @@ You can copy that list of packages and dump it in the `requirements.txt`
 pip freeze
 ```
 
+### Install the dependencies from the requirements.txt
+````
+pip install -r requirements.txt
+```
+
 ### Activate virtual environment
 Windows
 ```
@@ -66,3 +71,14 @@ Make sure you are inside the project folder
 python manage.py createsuperuser
 ```
 
+### Run tests
+Make sure you are inside the project folder
+
+```
+python manage.py test
+```
+
+For a specific app
+```
+python manage.py test <app name>
+```
