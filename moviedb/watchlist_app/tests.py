@@ -85,3 +85,88 @@ class MoviesTestCase(APITestCase):
         resp = self.client.get(reverse('movie-detail', args=(self.movie.id,)))
 
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+
+class ReviewTestCase(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='testuser',
+            password='TestPassword123'
+        )
+        # self.token = Token.objects.get(user=self.user)
+        # self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token.key}")
+
+        self.stream_platform = models.StreamPlatform.objects.create(
+            name= "Netflix",
+            about= "the best test stream platform",
+            url= "https://netflix.com"
+        )
+
+        self.movie = models.Movie.objects.create(
+            platform=self.stream_platform,
+            name= "Original Test movie",
+            active= True,
+            description= "This is the first test movie"
+        )
+
+        self.movie2 = models.Movie.objects.create(
+            platform=self.stream_platform,
+            name= "Original Test movie2",
+            active= True,
+            description= "This is the first test movie2"
+        )
+
+    def test_review_create(self):
+        data = {
+            "review_user": self.user,
+            "rating": 5,
+            "description": "This is a test review",
+            "movie": self.movie,
+            "active": True
+        }
+
+        self.assertEqual(models.Review.objects.count(), 0)
+        resp = self.client.post(reverse('movie-review-create', args=(self.movie.id,)), data)
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(models.Review.objects.count(), 1)
+
+        resp = self.client.post(reverse('movie-review-create', args=(self.movie.id,)), data)
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_review_create_unauth(self):
+        data = {
+            "review_user": self.user,
+            "rating": 5,
+            "description": "This is a test review",
+            "movie": self.movie,
+            "active": True
+        }
+
+        self.client.force_authenticate(user=None)
+        resp = self.client.post(reverse('movie-review-create', args=(self.movie.id,)), data)
+        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_review_update(self):
+        review = models.Review.objects.create(
+            review_user= self.user,
+            rating= 5,
+            description= "This is a new test review",
+            movie= self.movie2,
+            active= True
+        )
+
+        data = {
+            "review_user": self.user,
+            "rating": 4,
+            "description": "This is a test review",
+            "movie": self.movie,
+            "active": True
+        }
+
+        resp = self.client.put(reverse('movie-review-detail', args=(review.id,)), data)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+    def test_review_list(self):
+        resp = self.client.get(reverse('movie-detail-reviews',(self.movie.id,)))
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
