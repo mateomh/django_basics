@@ -18,7 +18,7 @@ pip freeze
 ```
 
 ### Install the dependencies from the requirements.txt
-````
+```
 pip install -r requirements.txt
 ```
 
